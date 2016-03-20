@@ -1,0 +1,65 @@
+    function updaterow(){
+	flag = 'edit';
+		var arr =$('#roleTable').datagrid('getSelections');
+		if(arr.length != 1){
+			$.messager.show({
+				title:'提示信息!',
+				msg:'只能选择一行记录进行修改!'
+			});
+		} else {
+			$('#roleManage').dialog({
+				title:'修改角色'
+			});
+			<%-- $('#tt').data-options({
+				"url":'<%=basePath%>systemManage/getJson.action'				
+			}); --%>
+			//$.get('<%=basePath%>systemManage/getJson.action');
+			//$('#myform').dialog('options').href = '<%=basePath%>systemManage/getJson.action';
+			$('#roleManage').dialog('open'); //打开窗口
+			$('#myform').get(0).reset();   //清空表单数据 
+			//$('#roleManage').dialog('refresh','<%=basePath%>systemManage/getJson.action');
+			$('#myform').form('load',{	   //调用load方法把所选中的数据load到表单中,非常方便
+				srId:arr[0].srId ,
+				srName:arr[0].srName ,
+				srReid:arr[0].srReid==1?'员工':'领导',
+			});
+		}
+	}
+
+
+$.messager.confirm('提示','确定要修改个人信息吗?',function(result){
+				if(result){
+					alert("确定！");
+				}
+				<%-- if($('#personInfoForm').form('validate') && result){
+					$.ajax({
+						type: 'post' ,
+						url: '<%=basePath%>personalManage/updateInfo.action',
+						cache:false ,
+						data:$('#personInfoForm').serialize() ,
+						dataType:'json' ,
+						success:function(result){
+							//1 关闭窗口
+							$('#roleManage').dialog('close');
+							//2刷新datagrid 
+							$('#roleTable').datagrid('reload');
+							//3 提示信息
+							$.messager.show({
+								title:result.status , 
+								msg:result.message
+							});
+						} ,
+						error:function(result){
+							$.meesager.show({
+								title:result.status , 
+								msg:result.message
+							});
+						}
+					});
+				} else {
+					$.messager.show({
+						title:'提示信息!' ,
+						msg:'数据验证不通过,不能保存!'
+					});
+				} --%>
+			});
